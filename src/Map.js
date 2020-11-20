@@ -323,7 +323,7 @@ export default function Map({totals}) {
         onClick={_onClick}
         onViewportChange={_onViewportChange}
         width="100%"
-        
+        height="900px"
       >
         <Source data={clusterData} ref={sourceRef} type="geojson">
             <Layer {...clusterLayer} />
