@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import ReactGA from 'react-ga';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+// import ReactGA from 'react-ga';
+// import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 //import Dashboard from './Dashboard';
 import Map from './Map';
@@ -38,16 +38,14 @@ function App() {
     updated: null,
   });
 
-  const [localData, setLocalData] = useState(null);
+  //const [localData, setLocalData] = useState(null);
   const _getTotals = async () => {
     const { data } = await getUSStates();
     let caseCnt = 0, activeCnt = 0, deathsCnt = 0, recoveredCnt = 0;
 
-    setLocalData({
-      ...data,
-    });
+    
 
-    data.map( d => {
+    data.forEach( d => {
       caseCnt = d.cases + caseCnt;
       activeCnt = d.active + activeCnt;
       deathsCnt = d.deaths + deathsCnt;

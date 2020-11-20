@@ -60,11 +60,11 @@ export default function Map({totals}) {
       );
 
       const USData = filteredData.filter(
-        ({ country }) => country == 'US',
+        ({ country }) => country === 'US',
       );
       //console.log('localData: ',localData1.data);
-      USData.map( d => {
-        localData1.data.map( m => {
+      USData.forEach( d => {
+        localData1.data.forEach( m => {
           if (m.state.toLowerCase() === d.province.toLowerCase()) {
             d.stats.recovered = m.recovered;
             d.stats.cases = m.cases;
@@ -127,7 +127,7 @@ export default function Map({totals}) {
     _geoData();
 
     
-  }, []);
+  }, [currentCluster]);
 
   const _onViewportChange = (updatedViewport) => setViewport(updatedViewport);
 
@@ -323,7 +323,7 @@ export default function Map({totals}) {
         onClick={_onClick}
         onViewportChange={_onViewportChange}
         width="100%"
-        height="900px"
+        
       >
         <Source data={clusterData} ref={sourceRef} type="geojson">
             <Layer {...clusterLayer} />
