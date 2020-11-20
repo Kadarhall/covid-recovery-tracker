@@ -315,7 +315,7 @@ export default function Map({totals}) {
       <MapGL
         {...viewport}
         dragRotate={false}
-        height="100%"
+        height="900px"
         interactiveLayerIds={[clusterLayer.id]}
         mapStyle="mapbox://styles/kadarhall/ckgbte9ex4r5719mp6i2nrjrn"
         mapboxApiAccessToken='pk.eyJ1Ijoia2FkYXJoYWxsIiwiYSI6Im9GVVV0dGcifQ.kj_3hN9V6hax3LncAlpWqQ'
@@ -323,7 +323,6 @@ export default function Map({totals}) {
         onClick={_onClick}
         onViewportChange={_onViewportChange}
         width="100%"
-        height="900px"
       >
         <Source data={clusterData} ref={sourceRef} type="geojson">
             <Layer {...clusterLayer} />
