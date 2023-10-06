@@ -37,7 +37,8 @@
     "eject": "react-scripts eject"
   },
   "engines": {
-    "yarn": "1.22.19"
+    "yarn": "1.22.19",
+    "node": "20.x"
   },
   "eslintConfig": {
     "extends": "react-app"
