@@ -2,11 +2,19 @@ import axios from 'axios';
 import moment from 'moment';
 
 // https://github.com/NovelCOVID/API
-export const getCountries = async () =>
-  await axios.get('https://disease.sh/v3/covid-19/countries');
 
-export const getGEOData = async () =>
-  await axios.get('https://disease.sh/v3/covid-19/jhucsse');
+const options = {
+	headers: {'Access-Control-Allow-Origin':  '*',
+  'Access-Control-Allow-Methods': 'POST',
+  'Access-Control-Allow-Headers': 'Content-Type, Authorization'}
+}
+
+export const getCountries = async () =>
+  await axios.get('https://disease.sh/v3/covid-19/countries', options);
+
+// export const getGEOData = async () =>
+//   await axios.get('http://localhost:3002/v3/covid-19/jhucsse', options);
+
 
 export const getTotals = async () =>
   await axios.get('https://disease.sh/v3/covid-19/all');

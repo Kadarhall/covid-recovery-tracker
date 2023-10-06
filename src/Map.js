@@ -19,8 +19,8 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import yellow from '@material-ui/core/colors/yellow';
 import clsx from 'clsx';
 import * as d3 from 'd3-ease';
-
-import { getGEOData, getUSStates } from './services';
+import { states } from './states';
+import { getCountries, getUSStates } from './services';
 import { useMapStyles } from './Map.styles';
 
 export default function Map({totals}) {
@@ -44,45 +44,77 @@ export default function Map({totals}) {
   const [clusterList, setClusterList] = useState([]);
   const [isClusterListOpen, setIsClusterListOpen] = useState(false);
 
-  const sourceRef = useRef();
+  // const sourceRef = useRef();
 
   
 
   // Get GEO data when component mounts
   useEffect(() => {
 
+
     const _geoData = async () => {
-      const { data } = await getGEOData();
-      const localData1 = await getUSStates();
+      const { data } = await getCountries();
+      // const USData = await getUSStates();
+
       // Remove garbage data
-      const filteredData = data.filter(
-        ({ province }) => province !== 'Recovered',
-      );
+      // const filteredData = data.filter(
+      //   ({ province }) => province !== 'Recovered',
+      // );
+      
+      console.log('states: ', states);
 
-      const USData = filteredData.filter(
-        ({ country }) => country === 'US',
-      );
+      // const USData = data.filter(
+      //   ({ country }) => country === 'USA',
+      // );
+
+      // USData.data.forEach( u => {
+      //   states.forEach( s => {
+      //     if (u.state.toLowerCase() === s.name.toLowerCase()) {
+      //       u.coordinates = {
+      //         latitude: s.lat,
+      //         longitude: s.long,
+              
+      //       }
+      //     }
+      //   })
+        //data.push(u);
+      // })
+
+      data.forEach( d => {
+        d.coordinates = {
+          latitude: d.countryInfo.lat,
+          longitude: d.countryInfo.long,
+        }
+      })
+      
       //console.log('localData: ',localData1.data);
-      USData.forEach( d => {
-        localData1.data.forEach( m => {
-          if (m.state.toLowerCase() === d.province.toLowerCase()) {
-            d.stats.recovered = m.recovered;
-            d.stats.cases = m.cases;
-            d.stats.deaths = m.deaths;
-          }
-        });
-      });
+      // data.forEach( d => {
+      //   USData.data.forEach( m => {
+      //     console.log('m.state:', m);
+      //     console.log('d.state: ', d);
+      //     if (m.state.toLowerCase() === d.state.toLowerCase()) {
+      //       d.stats.recovered = m.recovered;
+      //       d.stats.cases = m.cases;
+      //       d.stats.deaths = m.deaths;
+      //     }
+      //   });
+      // });
+      
 
-      //console.log('USDATA: ', USData);
 
-      const features = USData.map(
+      console.log('data: ', data);
+      // console.log('USData: ', USData.data);
+
+      const features = data.map(
         ({
           coordinates: { latitude, longitude },
           country,
-          province: state,
-          stats: { confirmed, deaths, recovered },
+          state,
+          cases,
+          deaths,
+          recovered
         }) => {
-          const cases = parseInt(confirmed);
+          const numCases = parseInt(cases);
           const numDeaths = parseInt(deaths);
           const numRecovered = parseInt(recovered);
 
@@ -96,10 +128,10 @@ export default function Map({totals}) {
             },
             properties: {
               active: cases - numDeaths - numRecovered,
-              cases,
+              numCases,
               deaths: numDeaths,
-              latitude: parseFloat(latitude), // mapboxGL throws an error when this is a string
-              longitude: parseFloat(longitude), // mapboxGL throws an error when this is a string
+              latitude: latitude, // mapboxGL throws an error when this is a string
+              longitude: longitude, // mapboxGL throws an error when this is a string
               name:
                 isStatePresent && isCountryPresent
                   ? `${state}, ${country}`
@@ -116,6 +148,8 @@ export default function Map({totals}) {
         [currentCluster],
         ['desc'],
       );
+
+      console.log('list: ', list);
 
       setClusterList(list);
       setClusterData({
@@ -308,6 +342,8 @@ export default function Map({totals}) {
     },
   ];
 
+  const height = window.innerHeight;
+
   return (
     <div>
 
@@ -315,7 +351,7 @@ export default function Map({totals}) {
       <MapGL
         {...viewport}
         dragRotate={false}
-        height="900px"
+        height={height}
         interactiveLayerIds={[clusterLayer.id]}
         mapStyle="mapbox://styles/kadarhall/ckgbte9ex4r5719mp6i2nrjrn"
         mapboxApiAccessToken='pk.eyJ1Ijoia2FkYXJoYWxsIiwiYSI6Im9GVVV0dGcifQ.kj_3hN9V6hax3LncAlpWqQ'
@@ -324,7 +360,7 @@ export default function Map({totals}) {
         onViewportChange={_onViewportChange}
         width="100%"
       >
-        <Source data={clusterData} ref={sourceRef} type="geojson">
+        <Source data={clusterData} type="geojson">
             <Layer {...clusterLayer} />
           </Source>
 
