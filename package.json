@@ -26,7 +26,7 @@
     "react-ga": "^3.2.0",
     "react-map-gl": "^5.2.9",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "^3.4.4",
+    "react-scripts": "^5.0.1",
     "react-vis": "^1.11.7",
     "react-waypoint": "^9.0.2"
   },
