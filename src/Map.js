@@ -355,7 +355,7 @@ export default function Map({totals}) {
         interactiveLayerIds={[clusterLayer.id]}
         mapStyle="mapbox://styles/kadarhall/ckgbte9ex4r5719mp6i2nrjrn"
         mapboxApiAccessToken='pk.eyJ1Ijoia2FkYXJoYWxsIiwiYSI6Im9GVVV0dGcifQ.kj_3hN9V6hax3LncAlpWqQ'
-        maxZoom={5}
+        maxZoom={1}
         onClick={_onClick}
         onViewportChange={_onViewportChange}
         width="100%"
