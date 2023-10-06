@@ -30,7 +30,7 @@ export default function Map({totals}) {
   const [viewport, setViewport] = useState({
     latitude: 35.5,
     longitude: -84.5,
-    zoom: 3,
+    zoom: 1,
     bearing: 0,
     pitch: 0,
   });
@@ -355,7 +355,7 @@ export default function Map({totals}) {
         interactiveLayerIds={[clusterLayer.id]}
         mapStyle="mapbox://styles/kadarhall/ckgbte9ex4r5719mp6i2nrjrn"
         mapboxApiAccessToken='pk.eyJ1Ijoia2FkYXJoYWxsIiwiYSI6Im9GVVV0dGcifQ.kj_3hN9V6hax3LncAlpWqQ'
-        maxZoom={1}
+        maxZoom={5}
         onClick={_onClick}
         onViewportChange={_onViewportChange}
         width="100%"
